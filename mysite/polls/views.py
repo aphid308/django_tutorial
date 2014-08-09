@@ -2,10 +2,20 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-
+from django.views import generic
 
 from polls.models import Poll, Choice
 
+#CLASS BASED GENERIC VIEW
+class IndexView(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'latest_poll_list'
+
+    def get_queryset(self):
+        """Return the last five published polls."""
+        return Poll.objects.order_by('-pub_date')[:5]
+
+#USING render
 #def index(request):
 
 #    latest_poll_list = Poll.objects.order_by('-pub_date')[:5]
@@ -14,28 +24,42 @@ from polls.models import Poll, Choice
 
 #    return HttpResponse(template.render(context))
 
-def index(request):
-    latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
-    context = {'latest_poll_list': latest_poll_list}
-    return render(request, 'polls/index.html', context)
+#WORKING VIEW
+#def index(request):
+#    latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
+#    context = {'latest_poll_list': latest_poll_list}
+#    return render(request, 'polls/index.html', context)
 
+class DetailView(generic.DetailView):
+    model = Poll
+    template_name = 'polls/detail.html'
+
+#STUB VIEW
 #def detail(request, poll_id):
 #    return HttpResponse("You're looking at poll %s" % poll_id)
 
-def detail(request, poll_id):
-    try:
-        poll = Poll.objects.get(pk=poll_id)
-    except Poll.DoesNotExist:
-        raise Http404
-    return render(request, 'polls/detail.html', {'poll': poll})
+#USING render
+#def detail(request, poll_id):
+#    try:
+#        poll = Poll.objects.get(pk=poll_id)
+#    except Poll.DoesNotExist:
+#        raise Http404
+#    return render(request, 'polls/detail.html', {'poll': poll})
 
+class ResultsView(generic.DetailView):
+    model = Poll
+    template_name = 'polls/results.html'
+
+#STUB vIEW
 #def results(request, poll_id):
 #    return HttpResponse("You're looking at the results of poll %s" % poll_id)
 
-def results(request, poll_id):
-    poll = get_object_or_404(Poll, pk=poll_id)
-    return render(request, 'polls/results.html', {'poll': poll})
+#USING render
+#def results(request, poll_id):
+#    poll = get_object_or_404(Poll, pk=poll_id)
+#    return render(request, 'polls/results.html', {'poll': poll})
 
+#STUB VIEW
 #def vote(request, poll_id):
 #    return HttpResponse("You're voting on poll %s" % poll_id)
 
