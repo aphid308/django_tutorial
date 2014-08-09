@@ -15,53 +15,13 @@ class IndexView(generic.ListView):
         """Return the last five published polls."""
         return Poll.objects.order_by('-pub_date')[:5]
 
-#USING render
-#def index(request):
-
-#    latest_poll_list = Poll.objects.order_by('-pub_date')[:5]
-#    template = loader.get_template('polls/index.html')
-#    context = RequestContext(request, {'latest_poll_list': latest_poll_list})
-
-#    return HttpResponse(template.render(context))
-
-#WORKING VIEW
-#def index(request):
-#    latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
-#    context = {'latest_poll_list': latest_poll_list}
-#    return render(request, 'polls/index.html', context)
-
 class DetailView(generic.DetailView):
     model = Poll
     template_name = 'polls/detail.html'
 
-#STUB VIEW
-#def detail(request, poll_id):
-#    return HttpResponse("You're looking at poll %s" % poll_id)
-
-#USING render
-#def detail(request, poll_id):
-#    try:
-#        poll = Poll.objects.get(pk=poll_id)
-#    except Poll.DoesNotExist:
-#        raise Http404
-#    return render(request, 'polls/detail.html', {'poll': poll})
-
 class ResultsView(generic.DetailView):
     model = Poll
     template_name = 'polls/results.html'
-
-#STUB vIEW
-#def results(request, poll_id):
-#    return HttpResponse("You're looking at the results of poll %s" % poll_id)
-
-#USING render
-#def results(request, poll_id):
-#    poll = get_object_or_404(Poll, pk=poll_id)
-#    return render(request, 'polls/results.html', {'poll': poll})
-
-#STUB VIEW
-#def vote(request, poll_id):
-#    return HttpResponse("You're voting on poll %s" % poll_id)
 
 def vote(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
@@ -80,4 +40,48 @@ def vote(request, poll_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
+
+#USING render
+#def index(request):
+
+#    latest_poll_list = Poll.objects.order_by('-pub_date')[:5]
+#    template = loader.get_template('polls/index.html')
+#    context = RequestContext(request, {'latest_poll_list': latest_poll_list})
+
+#    return HttpResponse(template.render(context))
+
+#WORKING VIEW
+#def index(request):
+#    latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
+#    context = {'latest_poll_list': latest_poll_list}
+#    return render(request, 'polls/index.html', context)
+
+#STUB VIEW
+#def detail(request, poll_id):
+#    return HttpResponse("You're looking at poll %s" % poll_id)
+
+#USING render
+#def detail(request, poll_id):
+#    try:
+#        poll = Poll.objects.get(pk=poll_id)
+#    except Poll.DoesNotExist:
+#        raise Http404
+#    return render(request, 'polls/detail.html', {'poll': poll})
+
+
+
+#STUB vIEW
+#def results(request, poll_id):
+#    return HttpResponse("You're looking at the results of poll %s" % poll_id)
+
+#USING render
+#def results(request, poll_id):
+#    poll = get_object_or_404(Poll, pk=poll_id)
+#    return render(request, 'polls/results.html', {'poll': poll})
+
+#STUB VIEW
+#def vote(request, poll_id):
+#    return HttpResponse("You're voting on poll %s" % poll_id)
+
+
 
