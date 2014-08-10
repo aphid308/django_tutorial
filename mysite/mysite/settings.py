@@ -29,6 +29,11 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+STATIC_FILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',

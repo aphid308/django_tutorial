@@ -32,3 +32,5 @@ class Choice(models.Model):
 
     def __unicode__(self):
         return self.choice_text
+
+
